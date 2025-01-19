@@ -16,13 +16,14 @@ from recipe.serializers import RecipeSerializer
 
 RECIPES_URL = reverse('recipe:recipe-list')
 
+
 def create_recipe(user, **params):
     """Create and return a sample recipe."""
     defaults = {
         'title': 'Sample recipe title',
         'time_minutes': 42,
         'price': Decimal('42.42'),
-        'description': 'Sample decription',
+        'description': 'Sample description',
         'link': 'http://example.com/recipe.pdf',
     }
     defaults.update(params)
@@ -41,7 +42,7 @@ class PublicRecipeAPITests(TestCase):
         """Test auth is required to call API."""
         res = self.client.get(RECIPES_URL)
 
-        self. assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
 class PrivateRecipeAPITests(TestCase):
@@ -49,7 +50,7 @@ class PrivateRecipeAPITests(TestCase):
 
     def setUp(self):
         self.client = APIClient()
-        self.user = get_user_model().objects.create_superuser(
+        self.user = get_user_model().objects.create_user(
             'user@example.com',
             'testpass123',
         )
